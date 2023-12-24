@@ -1,0 +1,69 @@
+halo ini adib
+
+saya pemula dalam flutter dart
+disini saya akan log jenis error yang aneh dan tidak bisa di jelaskan oleh saya
+
+1. Failed to encode image
+
+E/FlutterJNI( 4781): Failed to decode image
+E/FlutterJNI( 4781): android.graphics.ImageDecoder$DecodeException: Failed to create image decoder with message 'unimplemented'Input contained an error.
+E/FlutterJNI( 4781): 	at android.graphics.ImageDecoder.nCreate(Native Method)
+E/FlutterJNI( 4781): 	at android.graphics.ImageDecoder.-$$Nest$smnCreate(Unknown Source:0)
+E/FlutterJNI( 4781): 	at android.graphics.ImageDecoder$ByteBufferSource.createImageDecoder(ImageDecoder.java:254)
+E/FlutterJNI( 4781): 	at android.graphics.ImageDecoder.decodeBitmapImpl(ImageDecoder.java:1981)
+E/FlutterJNI( 4781): 	at android.graphics.ImageDecoder.decodeBitmap(ImageDecoder.java:1973)
+E/FlutterJNI( 4781): 	at io.flutter.embedding.engine.FlutterJNI.decodeImage(FlutterJNI.java:554)
+E/FrameTracker( 4781): force finish cuj, time out: J<IME_INSETS_ANIMATION::0@1@com.example.pendawa>
+E/FrameTracker( 4781): force finish cuj, time out: J<IME_INSETS_ANIMATION::1@1@com.example.pendawa>
+
+reason: Kesalahan dalam penulisan string
+$
+
+Testing 1
+test: alamat manual
+//http://192.168.1.5/PBL%202/images/960x960.190.jpg//
+result: Fix
+// Berati kode normal dan ada masalah di alamat
+
+Testing 2
+test: alamat Api + manual file
+//'${Api.img}/$960x960.190.jpg//
+result: Fix
+// Berati masalah bukan di alamat API
+
+Testing 3
+test: manual Api + alamat file
+//'http://192.168.1.5/PBL%202/images/${biodata.fotoKK}'//
+result: Error
+// Masalah berada di alamat gambar
+
+testing 4
+test: Clear cache
+// Tips komunitas Github //
+result: Tempotary Fix
+// Masih memiliki pesan error, tapi kode tetap berjalan.
+
+testing 5
+test: Variable tambahan
+String a = '${biodata.fotoKK}';
+String b = a;
+result: Tempotary Fix
+// Di awal bisa lalu rusak saat percobaan ke 3. masih memiliki pesan error
+
+testing 6
+test: Cek apakah variable kosong atau tidak
+//String test = http://192.168.1.5/PBL%202/images/960x960.190.jpg;
+//String imageUrl = '${Api.img}/${biodata.fotoKK}'
+//print('test ini: $test');
+//print('test Url: $imageUrl');
+result: Hasil sama
+// Tidak ada perbedaan penulisan string
+
+testing 7
+test: pemisahan extension
+//String a = '${biodata.fotoKK}';
+//int dotIndex = a.lastIndexOf('.');
+//String b = a.substring(0, dotIndex); // Filename
+//String extension = a.substring(dotIndex); // Extension
+result: fix??
+// untuk sekarang fix, tidak ada pesan error. Perlu beberapa percobaan lagi
